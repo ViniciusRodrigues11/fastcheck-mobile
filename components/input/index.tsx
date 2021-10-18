@@ -7,6 +7,8 @@ import { useField } from '@unform/core'
 interface InputProps extends TextInputProps {
   name: string;
   icon: string;
+  cpfMask?: boolean;
+  inputMaskChange?: any;
   containerStyle?: {},
 }
 
@@ -19,11 +21,23 @@ interface InputRef {
 }
 
 
-const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = ({ name, icon, containerStyle = {}, ...rest }, ref) => {
+const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = ({ name, icon, cpfMask, inputMaskChange ,containerStyle = {}, ...rest }, ref) => {
 
   const [isFocused, setIsFocused] = useState(false)
   const [isFilled, seIsFilled] = useState(false)
 
+  function cpfMaksChange(value: string) {
+    value = value.replace(/\D/g, "")
+    value = value.replace(/(\d{3})(\d)/, "$1.$2")
+    value = value.replace(/(\d{3})(\d)/, "$1.$2")
+    value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2")
+    return value;
+  }
+
+  function handleChange(text: string) {
+      const value = cpfMaksChange(text);
+      inputMaskChange(value);
+  }
 
   const handleInputFocus = useCallback(() => {
     setIsFocused(true)
@@ -76,6 +90,9 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = ({ name, ico
         defaultValue={defaultValue}
         onChangeText={value => {
           inputValueRef.current.value = value;
+          if(cpfMask == true) {
+            handleChange(value)
+          }
         }}
         {...rest}
       />

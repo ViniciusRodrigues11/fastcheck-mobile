@@ -13,7 +13,6 @@ const Button: React.FC<ButtonPros> = ({
   children,
   ...rest
 }) => {
-  console.log('Button', isCancelButton);
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading

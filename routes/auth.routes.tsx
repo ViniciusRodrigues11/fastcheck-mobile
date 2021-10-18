@@ -2,6 +2,7 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 
 import SignIn from '../screens/Login/Login'
+import Register from '../screens/Register'
 
 const Auth = createStackNavigator();
 
@@ -11,7 +12,9 @@ const AuthRoutes: React.FC = () => (
       headerShown: false
     }}
     >
-      <Auth.Screen name="SignIn" component={SignIn} />
+      <Auth.Screen name="Login" component={SignIn} />
+
+      <Auth.Screen name="Register" component={Register} />
     </Auth.Navigator>
   
 )

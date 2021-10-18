@@ -5,16 +5,13 @@
  */
 import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { ColorSchemeName } from 'react-native';
 import { MotiView } from 'moti'
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
-import { RootStackParamList, RootTabParamList } from '../types';
+import { RootTabParamList } from '../types';
 
 interface iconProps {
   name: React.ComponentProps<typeof FontAwesome>['name'];
@@ -22,25 +19,9 @@ interface iconProps {
   isActive: boolean;
 }
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
-  return (
-      <RootNavigator />
-  );
-}
-
-const Stack = createNativeStackNavigator<RootStackParamList>();
-
-function RootNavigator() {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-    </Stack.Navigator>
-  );
-}
-
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
-function BottomTabNavigator() {
+export function BottomTabNavigator() {
   const colorScheme = useColorScheme();
   const TabBarIcon = (props: iconProps) => {
     return (
@@ -75,15 +56,13 @@ function BottomTabNavigator() {
               height: 5
             }
           },
-          props.isActive && { transform: [{ translateY: -20 }], borderColor: 'transparent', borderTopColor: '#ff5566', borderBottomColor: '#ff5566', borderWidth: 1 }
+          props.isActive && { transform: [{ translateY: -20 }], elevation: 1 }
           ]}
           {...props}
         />
       </MotiView>
     )
   }
-
-
   return (
     <BottomTab.Navigator
       initialRouteName="TabOne"
@@ -98,7 +77,7 @@ function BottomTabNavigator() {
           margin: 10,
           width: 240,
           alignSelf: "center",
-          elevation: 0,
+          elevation: 0.5,
           borderColor: 'transparent',
           borderTopWidth: 0
         },

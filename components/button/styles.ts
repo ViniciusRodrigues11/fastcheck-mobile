@@ -23,6 +23,6 @@ export const Container = styled(RectButton)<ButtonProps>`
 `;
 
 export const ButtonText = styled.Text<ButtonProps>`
-  color: ${props => (props.isCancelButton ? '#f4ede8' : '#312e38')};
+  color: ${props => (props.isCancelButton ? '#f4ede8' : '#fff')};
   font-size: 15px;
 `;
