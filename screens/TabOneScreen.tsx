@@ -4,11 +4,12 @@ import { StyleSheet, Dimensions } from 'react-native';
 import { Text, View } from '../components/Themed';
 import { Camera } from 'expo-camera';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 
-
+import {useAuth} from '../hooks/AuthContext'
 import Header from '../components/Header'
 import { MotiView } from 'moti';
+import api from '../services/api';
 
 
 const window = Dimensions.get('window');
@@ -22,13 +23,16 @@ function TabOneScreen() {
   const [scanned, setScanned] = useState(false);
   const isFocused = useIsFocused();
 
+  const {user} = useAuth()
 
+  const navigation =  useNavigation()
 
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
+
   }, []);
 
   if (hasPermission === null) {
@@ -38,10 +42,23 @@ function TabOneScreen() {
     return <Text>No access to camera</Text>;
   }
 
-  const handleBarCodeScanned = ({ data }: barcodeProps) => {
+  const handleBarCodeScanned = async ({ data }: barcodeProps) => {
     setScanned(true);
-    alert(data);
+    try{
+     await api.put('/check', {
+        check_id: data,
+        user_id: user.id
+      })
+
+      navigation.navigate('MessageScreen', {success: true})
+      setScanned(false)
+
+    }catch(err: any){
+      navigation.navigate('MessageScreen', {success: false})
+      setScanned(false)
+    }
   };
+
   return (
     <View style={styles.container} >
       <MotiView

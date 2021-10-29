@@ -7,7 +7,7 @@ interface headerProps {
     name: string;
 }
 
-export default function Header({ name }: headerProps) {
+export default function Header({ name, ...rest }: headerProps) {
     return (
         <View
             

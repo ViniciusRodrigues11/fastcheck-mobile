@@ -24,7 +24,7 @@ interface SingInFormData {
 const SignIn: React.FC = () => {
 
   const navigation = useNavigation();
-  const { signIn, user } = useAuth()
+  const {signIn} = useAuth()
   const formRef = useRef<FormHandles>(null)
   const passwordInputRef = useRef<TextInput>(null)
 
@@ -34,22 +34,17 @@ const SignIn: React.FC = () => {
   const handleSignIn = useCallback(async (data: SingInFormData) => {
     try {
       formRef.current?.setErrors({});
-      const schema = Yup.object().shape({
-        email: Yup.string()
-          .required('Email obrigatório')
-          .email('Digite um email válido'),
-        password: Yup.string().required('Senha obrigatória'),
-      });
-
-      await schema.validate(data, { abortEarly: false });
-
+       const schema = Yup.object().shape({
+         email: Yup.string()
+           .required('Email obrigatório')
+           .email('Digite um email válido'),
+         password: Yup.string().required('Senha obrigatória'),
+       });
+       await schema.validate(data, { abortEarly: false });
       await signIn({
         email: data.email,
         password: data.password,
       });
-
-
-
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
@@ -58,7 +53,6 @@ const SignIn: React.FC = () => {
 
         return;
       }
-      console.log(err)
       Alert.alert('Erro na autenticação', 'Ocorreu um erro ao fazer login, cheque as credenciais')
     }
   },
@@ -70,7 +64,7 @@ const SignIn: React.FC = () => {
       <KeyboardAvoidingView enabled style={{ flex: 1 }} behavior={Platform.OS == 'ios' ? 'padding' : undefined}>
         <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ flex: 1 }}>
           <Container>
-            <Image source={Logo}   resizeMode="center"/>
+            <Image source={Logo}  resizeMode="center" resizeMethod='scale' />
             <View>
               <Title>Faça seu logon</Title>
             </View>

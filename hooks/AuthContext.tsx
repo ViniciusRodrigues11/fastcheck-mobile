@@ -57,9 +57,8 @@ export const AuthProvider: React.FC = ({ children }) => {
       password,
     });
 
+
     const { token, user } = response.data;
-
-
 
     await AsyncStorage.multiSet([
       ['@Gobarber:token', token],

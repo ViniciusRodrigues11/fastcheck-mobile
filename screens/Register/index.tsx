@@ -131,7 +131,7 @@ const Register: React.FC = () => {
                 returnKeyType="send"
                 onSubmitEditing={() => formRef.current?.submitForm()}
               />
-              <Button onPress={() => formRef.current?.submitForm()}>Entrar</Button>
+              <Button onPress={() => formRef.current?.submitForm()}>Registrar</Button>
             </Form>
           </Container>
         </ScrollView>

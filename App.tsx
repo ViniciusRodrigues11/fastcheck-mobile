@@ -4,6 +4,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import useCachedResources from './hooks/useCachedResources';
 import { NavigationContainer } from '@react-navigation/native'
 import Routes from './routes'
+import {AuthProvider } from './hooks/AuthContext'
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -15,7 +16,9 @@ export default function App() {
     return (
       <NavigationContainer>
         <SafeAreaProvider>
-          <Routes />
+          <AuthProvider>
+            <Routes />
+          </AuthProvider>
           <StatusBar hidden={true} />
         </SafeAreaProvider>
       </NavigationContainer>
